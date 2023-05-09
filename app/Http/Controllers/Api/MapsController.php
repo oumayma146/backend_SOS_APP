@@ -41,7 +41,7 @@ class MapsController extends Controller
             // ];
 
             // $results[] = $result;
-            // Station::create($results[]);
+        
         }
         if (count($stations) > 0) {
             return response()->json([

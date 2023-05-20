@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Api\Controllers;
+namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use alexpechkarev\GoogleMaps\GoogleMaps;
 use App\Models\Station;
+// use GoogleMaps\GoogleMaps;
 
 class MapsController extends Controller
 {
@@ -16,7 +17,7 @@ class MapsController extends Controller
         // $client->setApiKey(env('GOOGLE_MAPS_API_KEY'));
     
         $location = $latitude . ',' . $longitude;
-        $radius = 5000; // in meters
+        $radius = 15000; // in meters
         $types = 'police|hospital|car_repair';
 
         $places = $googleMaps->nearbySearch([
@@ -51,8 +52,10 @@ class MapsController extends Controller
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'No stations found within 5km of your location'
+                'message' => 'No stations found within 15km of your location'
             ]);
         }
     }
+   
+
 }

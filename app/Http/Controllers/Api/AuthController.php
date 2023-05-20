@@ -17,6 +17,10 @@ class AuthController extends Controller
      * @param Request $request
      * @return User 
      */
+    public function __construct(){
+        $this->middleware('auth:sanctum')->only(['profile', 'signOut']);
+        
+     }
     public function createUser(Request $request)
     {
         try {
@@ -25,7 +29,9 @@ class AuthController extends Controller
             [
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email',
-                'password' => 'required'
+                'password' => 'required',
+                'location' => 'required',
+                'phone_number' => 'required'
             ]);
 
             if($validateUser->fails()){
@@ -39,7 +45,9 @@ class AuthController extends Controller
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => Hash::make($request->password)
+                'password' => Hash::make($request->password),
+                'location' => $request->location,
+                'phone_number' => $request->phone_number,
             ]);
 
             return response()->json([

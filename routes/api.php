@@ -27,6 +27,7 @@ Route::get('/auth/profile', [AuthController::class, 'profile']);
 
 Route::group(['prefix' => 'user', 'middleware'=>'auth:sanctum'], function () {
     Route::post('/call', [CallController::class, 'call']);
-    Route::get('/stations', [MapsController::class, 'getClosestStation']);
+     Route::get('/stations', [MapsController::class, 'getClosestStation']);
    
 });
+//Route::get('/stations', [MapsController::class, 'getClosestStation']);

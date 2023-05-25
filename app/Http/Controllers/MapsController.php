@@ -37,29 +37,35 @@ class MapsController extends Controller
     ]);
     $results['car_repair']= json_decode($response->getBody(), true);
 
-        // dd($data);
-        $nearestPoliceStation = null;
-        $nearestCarRepair = null;
-        $name=[];
-        $formatted_phone_number=[];
-        if (isset($results['car_repair'])&& isset($results['police'])) {
-           
-            $name=collect($results['police']['results'])->pluck('name');
-            $name_car=collect($results['car_repair']['results'])->pluck('name');
-        //    dd($name);
-                    $nearestPoliceStation = [
-                        'name' =>  $name,
-                        'phone' => isset($results['police']['formatted_phone_number']) ? $results['police']['formatted_phone_number'] : 'N/A'
-                    ];
-             
-             
-                    $nearestCarRepair = [
-                        'name' =>  $name_car,
-                        'phone' => isset($results['car_repair']['formatted_phone_number']) ? $results['car_repair']['formatted_phone_number'] : 'N/A'
-                    ];
-               
-            
+    $nearestPoliceStation = null;
+    $nearestCarRepair = null;
+    $name = [];
+    $formatted_phone_number = [];
+    
+    if (isset($results['car_repair']) && isset($results['police'])) {
+        $policeStations = collect($results['police']['results']);
+        $carRepairShops = collect($results['car_repair']['results']);
+        
+        $name = $policeStations->pluck('name');
+        $name_car = $carRepairShops->pluck('name');
+        
+        $nearestPoliceStation = [];
+        $nearestCarRepair = [];
+    
+        foreach ($name as $index => $policeName) {
+            $nearestPoliceStation[] = [
+                'name' => $policeName,
+                'phone' => 193,
+            ];
         }
+    
+        foreach ($name_car as $index => $carRepairName) {
+            $nearestCarRepair[] = [
+                'name' => $carRepairName,
+                'phone' => ($index === 0) ? '27555555':'26052052',
+            ];
+        }
+    }
     
         return response()->json([
             'nearest_police_station' => $nearestPoliceStation,
